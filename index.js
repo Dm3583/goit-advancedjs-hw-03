@@ -4,10 +4,10 @@ import{a as f,S as p,i as n}from"./assets/vendor-GgwdjDaY.js";(function(){const 
         <img src="${i.webformatURL}" alt="${i.tags}" class="gallery-image"/>
       </a>
       <ul class="image-info">
-        <li><p class="image-info-label">Likes:</p> <p>${i.likes}</p></li>
-        <li><p class="image-info-label">Views:</p> <p>${i.views}</p></li>
-        <li><p class="image-info-label">Comments:</p> <p>${i.comments}</p></li>
-        <li><p class="image-info-label">Downloads:</p> <p>${i.downloads}</p></li>
+        <li><p class="image-info-label">Likes</p> <p>${i.likes}</p></li>
+        <li><p class="image-info-label">Views</p> <p>${i.views}</p></li>
+        <li><p class="image-info-label">Comments</p> <p>${i.comments}</p></li>
+        <li><p class="image-info-label">Downloads</p> <p>${i.downloads}</p></li>
 
       </ul>
     </li>
