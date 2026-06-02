@@ -2,35 +2,60 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import { getImagesByQuery } from './js/pixabay-api.js';
-import { showLoader, hideLoader } from './js/render-functions.js';
+import {
+  showLoader,
+  hideLoader,
+  createGallery,
+  clearGallery,
+} from './js/render-functions.js';
 
-function fetchImages() {
+const form = document.querySelector('.form');
+
+function fetchImages(query) {
   showLoader();
-  console.log('Fetching images for query: "nature"');
-  setTimeout(() => {
-    getImagesByQuery('nature')
-      .then(data => {
-        console.log('Fetched images:', data.hits);
-        if (data.hits.length === 0) {
-          iziToast.error({
-            title: 'No Results',
-            message:
-              'Sorry, there are no images matching your search query. Please try again!',
-            position: 'topRight',
-          });
-        }
-      })
-      .catch(error => {
+
+  getImagesByQuery(query)
+    .then(data => {
+      if (data.hits.length === 0) {
         iziToast.error({
-          title: 'Error',
-          message: `Failed to fetch images with the ${error}. Please try again later.`,
+          title: 'No Results',
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
           position: 'topRight',
         });
-      })
-      .finally(() => {
-        hideLoader();
+        return;
+      } else {
+        createGallery(data.hits);
+      }
+    })
+    .catch(error => {
+      iziToast.error({
+        title: 'Error',
+        message: `Failed to fetch images with the ${error}. Please try again later.`,
+        position: 'topRight',
       });
-  }, 2000);
+    })
+    .finally(() => {
+      hideLoader();
+      form.reset();
+    });
 }
 
-fetchImages();
+function onSubmit(event) {
+  event.preventDefault();
+  clearGallery();
+
+  const query = form.elements['search-text'].value.trim();
+
+  if (query) {
+    fetchImages(query);
+  } else {
+    iziToast.warning({
+      title: 'Empty Query',
+      message: 'Please enter a search query.',
+      position: 'topRight',
+    });
+  }
+}
+
+form.addEventListener('submit', onSubmit);
